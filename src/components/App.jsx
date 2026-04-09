@@ -19,18 +19,18 @@ const HogTile = ({ hog, onHideHog }) => {
           {showDetails && (
             <div className="description">
               <p>Specialty: {hog.specialty}</p>
-              <p>Weight: {hog.weight}</p> 
+              <p>{hog.weight}</p> 
               <p className="achievement">
-                Highest Medal Achieved: {hog['highest medal achieved']}
+            	{hog['highest medal achieved']}
               </p>
-              <p>{hog.greased ? "Greased" : "Not Greased"}</p>
+              <p>{hog.greased ? "Greased" : "Nongreased"}</p>
             </div>
           )}
 
           <button 
             className="ui button" 
             onClick={(e) => {
-              e.stopPropagation(); // Prevents the card click from firing
+              e.stopPropagation(); 
               onHideHog(hog.name);
             }}
           >
