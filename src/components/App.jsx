@@ -3,6 +3,54 @@ import Nav from "./Nav";
 
 import hogs from "../porkers_data";
 
+function HogForm({ onAddHog }) {
+  const [formData, setFormData] = useState({
+    name: "",
+    specialty: "",
+    weight: "",
+    greased: false,
+    image: "",
+    "highest medal achieved": "bronze"
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onAddHog(formData);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="ui form">
+
+      <div>
+        <label htmlFor="name">Name: </label>
+        <input id="name" type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
+      </div>
+
+	  <div>
+        <label htmlFor="specialty">Specialty: </label>
+        <input id="specialty" type="text" value={formData.specialty} onChange={(e) => setFormData({...formData, specialty: e.target.value})} />
+      </div>
+
+	  <div>
+        <label htmlFor="weight">Weight: </label>
+        <input id="weight" type="number" step="0.1" value={formData.weight} onChange={(e) => setFormData({...formData, weight: e.target.value})} />
+      </div>
+
+	  <div>
+        <label htmlFor="greased">Greased? </label>
+        <input id="greased" type="checkbox" checked={formData.greased} onChange={(e) => setFormData({...formData, greased: e.target.checked})} />
+      </div>
+
+	  <div>
+        <label htmlFor="image">Image: </label>
+        <input id="image" type="text" value={formData.image} onChange={(e) => setFormData({...formData, image: e.target.value})} />
+      </div>
+
+      <button type="submit">Add Hog</button>
+    </form>
+  );
+}
+
 const HogTile = ({ hog, onHideHog }) => {
   const [showDetails, setShowDetails] = useState(false);
 
@@ -53,6 +101,8 @@ function HogContainer({ hogs, onHideHog }) {
 }
 
 function App() {
+	const [allHogs, setAllHogs] = useState(hogs);
+
 	// state check active greased pig 
 	const [showGreased, setShowGreased] = useState(false); 
 
@@ -62,13 +112,18 @@ function App() {
 	// hide hogs
 	const [hiddenHogs, setHiddenHogs] = useState([]); 
 
+	// add hog 
+	const handleAddHog = (newHog) => {
+    setAllHogs([...allHogs, newHog]);
+  	};
+
 	// hide hog 
 	const handleHideHog = (name) => {
   		setHiddenHogs([...hiddenHogs, name]);
 	};
 
 	// filter logic
-	const filteredAndSortedHogs = [...hogs]
+	const filteredAndSortedHogs = [...allHogs]
 	// hiden hogs 
 	.filter(hog => !hiddenHogs.includes(hog.name))
 	// greased pig 
@@ -86,6 +141,7 @@ function App() {
 	return (
 		<div className="App">
 			<Nav showGreased={showGreased} setShowGreased={setShowGreased} sortBy={sortBy} setSortBy={setSortBy}/>
+			<HogForm onAddHog={handleAddHog} /> 
 			<HogContainer hogs={filteredAndSortedHogs} onHideHog={handleHideHog}/>
 		</div>
 	);
