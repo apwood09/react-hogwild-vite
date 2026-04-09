@@ -10,7 +10,7 @@ const HogTile = ({ hog, onHideHog }) => {
     <div className="ui eight wide column">
       <div className="ui card" aria-label="hog card" onClick={() => setShowDetails(!showDetails)}>
         <div className="image">
-          <img src={hog.image} alt={hog.name} />
+          <img src={hog.image} alt={`Photo of ${hog.name}`} />
         </div>
         <div className="content">
           <h3 className="header">{hog.name}</h3>
